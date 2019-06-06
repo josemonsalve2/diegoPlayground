@@ -35,7 +35,7 @@ gettimeofday(&start, NULL);
   MPI_Init(NULL, NULL);
     FILE *M_gen;
     FILE *M_out;
-    int n_iter = 12;
+    int n_iter;
     int mat_1[N][N];
     int mat_2[N][N];
     int mat_O[N][N];
@@ -58,7 +58,7 @@ gettimeofday(&start, NULL);
     int name_len;
     MPI_Get_processor_name(processor_name, &name_len);
     
-    n_iter = n_iter/world_size;
+    n_iter = n_iter_0/world_size;
     
     //printf("Hello world from processor %s, rank %d out of %d processors\n",processor_name, world_rank, world_size);
 
