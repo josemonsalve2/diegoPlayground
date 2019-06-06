@@ -29,9 +29,7 @@ void mult_m(int mat1[][N], int mat2[][N], int res[][N]){
 } 
 
 int main(int argc, char* argv[]) {
-/*    struct timeval start, end;
-gettimeofday(&start, NULL);
-*/
+
   MPI_Init(NULL, NULL);
     FILE *M_gen;
     FILE *M_out;
@@ -47,7 +45,8 @@ gettimeofday(&start, NULL);
     char fn_out[20];
     char tmp_rd[10];
     fpos_t position;
-    
+    struct timeval start, end;
+
     int world_size;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
@@ -65,6 +64,8 @@ gettimeofday(&start, NULL);
   // Create an array of elements
   // ID, N, M, M1, M2
   //for (int g = 0; g< world_size; g++){
+  
+  
   sprintf(fn_gen, "M_gen_%d.txt", world_rank);
   sprintf(fn_out, "M_out_%d.txt", world_rank);
     //printf("%s\n", tmp_fn);
@@ -85,8 +86,10 @@ gettimeofday(&start, NULL);
     fclose (M_gen);
   }
   // Graphic representation
-/*        
+       
   // Read elements 
+  gettimeofday(&start, NULL);
+
   for(int m=0; m < numOfIter; m++){
     new_o = 1;
     for(int i=0; i < n_iter; i++){
@@ -133,19 +136,18 @@ gettimeofday(&start, NULL);
     }
   }
 	
-*/
-  printf("processor %s, rank %d out of %d processors\n",processor_name, world_rank, world_size);
+  gettimeofday(&end, NULL);
+  printf("Proc: %s, Rank: %d\tout of %d Time1: %lf us\n", processor_name, world_rank, world_size, (((end.tv_sec * 1000000 + end.tv_usec)
+                                - (start.tv_sec * 1000000 + start.tv_usec)))*1.0/numOfIter);
+  printf("Proc: %s, Rank: %d\tout of %d Time2: %lf ms\n", processor_name, world_rank, world_size, (((end.tv_sec * 1000000 + end.tv_usec)
+                                - (start.tv_sec * 1000000 + start.tv_usec)))*0.001/numOfIter);
+  printf("Proc: %s, Rank: %d\tout of %d Time3: %lf ms\n", processor_name, world_rank, world_size, (((end.tv_sec * 1000000 + end.tv_usec)
+                                - (start.tv_sec * 1000000 + start.tv_usec)))*0.000001/numOfIter);
+  
+  //printf("processor %s, rank %d out of %d processors\n",processor_name, world_rank, world_size);
 
   MPI_Barrier(MPI_COMM_WORLD);
   MPI_Finalize();
-/*
-  gettimeofday(&end, NULL);
-  printf("Time1: %lf us\n", (((end.tv_sec * 1000000 + end.tv_usec)
-				- (start.tv_sec * 1000000 + start.tv_usec)))*1.0/numOfIter);
-  printf("Time2: %lf ms\n", (((end.tv_sec * 1000000 + end.tv_usec)
-				- (start.tv_sec * 1000000 + start.tv_usec)))*0.001/numOfIter);
-  printf("Time3: %lf ms\n", (((end.tv_sec * 1000000 + end.tv_usec)
-				- (start.tv_sec * 1000000 + start.tv_usec)))*0.000001/numOfIter);
-*/
+
   return 0;
 }
