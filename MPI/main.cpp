@@ -35,7 +35,7 @@ gettimeofday(&start, NULL);
   MPI_Init(NULL, NULL);
     FILE *M_gen;
     FILE *M_out;
-    int n_iter;
+    int n_iter = 12;
     int mat_1[N][N];
     int mat_2[N][N];
     int mat_O[N][N];
